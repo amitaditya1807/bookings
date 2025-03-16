@@ -1,12 +1,14 @@
 package handlers
 
 import (
+	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 
-	"github.com/amitaditya1807/bookings/pkg/config"
-	"github.com/amitaditya1807/bookings/pkg/models"
-	"github.com/amitaditya1807/bookings/pkg/render"
+	"github.com/amitaditya1807/bookings/internal/config"
+	"github.com/amitaditya1807/bookings/internal/models"
+	"github.com/amitaditya1807/bookings/internal/render"
 )
 
 // Repo the repository used by the handlers
@@ -78,6 +80,28 @@ func (m *Repository) PostAvailability(w http.ResponseWriter, r *http.Request) {
 	end := r.Form.Get("end")
 
 	w.Write([]byte(fmt.Sprintf("start date is %s and end date is %s", start, end)))
+}
+
+type jsonResponse struct {
+	OK      bool   `json:"ok"`
+	Message string `json:"message"`
+}
+
+// AvailabilityJSON handles request for availability and send JSON respopnse
+func (m *Repository) AvailabilityJSON(w http.ResponseWriter, r *http.Request) {
+	resp := jsonResponse{
+		OK:      true,
+		Message: "Available",
+	}
+
+	out, err := json.MarshalIndent(resp, "", "     ")
+	if err != nil {
+		log.Println(err)
+	}
+
+	log.Println(string(out))
+	w.Header().Set("Content-type", "application/json")
+	w.Write(out)
 }
 
 // Contacct renders the contacct page
