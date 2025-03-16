@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/gob"
 	"fmt"
 	"log"
 	"net/http"
@@ -9,6 +10,7 @@ import (
 	"github.com/alexedwards/scs/v2"
 	"github.com/amitaditya1807/bookings/internal/config"
 	"github.com/amitaditya1807/bookings/internal/handlers"
+	"github.com/amitaditya1807/bookings/internal/models"
 	"github.com/amitaditya1807/bookings/internal/render"
 )
 
@@ -19,6 +21,8 @@ var session *scs.SessionManager
 
 // main is the main application function
 func main() {
+	// what am i going to put in the session
+	gob.Register(models.Reservation{})
 	// change this to true when in production
 	app.InProduction = false
 
@@ -42,7 +46,7 @@ func main() {
 	handlers.NewHandlers(repo)
 	render.NewTemplates(&app)
 
-	fmt.Println("Starting application on port %s", portNumber)
+	fmt.Println("Starting application on port", portNumber)
 
 	srv := &http.Server{
 		Addr:    portNumber,

@@ -152,6 +152,17 @@
             })
         }
 
+        if("{{.Error}}" != ""){
+            notify("{{.Error}}", "error")
+        }
+        if("{{.Flash}}" != ""){
+            notify("{{.Flash}}", "success")
+        }
+        if("{{.Warning}}" != ""){
+            notify("{{.Warning}}", "success")
+        }
+        
+        // Prompt is our Javascript module for all alerts, notifications, and custom popup dialogues
         function Prompt() {
             let toast = function (c) {
                 const{

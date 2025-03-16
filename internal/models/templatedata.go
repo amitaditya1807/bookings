@@ -1,4 +1,7 @@
 package models
+
+import "github.com/amitaditya1807/bookings/internal/forms"
+
 // TemplateData holds data send from handlers to template
 type TemplateData struct {
 	StringMap map[string]string
@@ -8,5 +11,6 @@ type TemplateData struct {
 	CSRFToken string
 	Flash     string
 	Warning   string
-	Errr      string
+	Error     string
+	Form      *forms.Form
 }
